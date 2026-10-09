@@ -1,0 +1,38 @@
+"""FastAPI 앱 팩토리 / 엔트리포인트.
+
+실행:  uv run uvicorn app.main:app --reload
+문서:  http://localhost:8000/docs
+"""
+
+from fastapi import FastAPI
+
+from app.api.v1 import api_v1_router
+from app.core.config import get_settings
+from app.core.exceptions import register_exception_handlers
+
+settings = get_settings()
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title=settings.APP_NAME,
+        version=settings.APP_VERSION,
+        debug=settings.DEBUG,
+    )
+
+    register_exception_handlers(app)
+    app.include_router(api_v1_router)
+
+    @app.get("/health", tags=["meta"], summary="헬스체크")
+    async def health() -> dict:
+        return {
+            "status": "ok",
+            "app": settings.APP_NAME,
+            "version": settings.APP_VERSION,
+            "environment": settings.ENVIRONMENT,
+        }
+
+    return app
+
+
+app = create_app()
