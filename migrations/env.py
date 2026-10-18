@@ -11,12 +11,11 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+# ORM 매핑을 import 해 Base.metadata 에 테이블이 등록되게 한다.
+# (autogenerate 가 테이블을 인식하려면 필수)
+import app.models  # noqa: E402,F401
 from app.core.config import get_settings
 from app.core.database import Base
-
-# 모델을 import 해 Base.metadata 에 테이블이 등록되게 한다.
-# (autogenerate 가 모델을 인식하려면 필수)
-import app.modules.identity.models  # noqa: E402,F401
 
 config = context.config
 

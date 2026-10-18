@@ -6,9 +6,9 @@
 
 from fastapi import FastAPI
 
+from app.api.errors import register_exception_handlers
 from app.api.v1 import api_v1_router
 from app.core.config import get_settings
-from app.core.exceptions import register_exception_handlers
 
 settings = get_settings()
 
@@ -29,7 +29,6 @@ def create_app() -> FastAPI:
             "status": "ok",
             "app": settings.APP_NAME,
             "version": settings.APP_VERSION,
-            "environment": settings.ENVIRONMENT,
         }
 
     return app

@@ -39,7 +39,7 @@ async def get_session() -> AsyncGenerator[AsyncSession, None]:
     """요청 단위 세션 의존성.
 
     트랜잭션 경계를 요청 경계와 일치시킨다: 핸들러가 성공하면 commit,
-    예외가 나면 rollback. 리포지토리는 add/flush 까지만 책임진다.
+    예외가 나면 rollback. 서비스는 add/flush 까지만 책임진다.
     """
     async with AsyncSessionLocal() as session:
         try:
